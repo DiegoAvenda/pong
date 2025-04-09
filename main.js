@@ -1,4 +1,6 @@
 const canvas = document.querySelector("canvas")
+let player1ScoreElement = document.getElementById("player1Score")
+let player2ScoreElement = document.getElementById("player2Score")
 const ctx = canvas.getContext("2d")
 canvas.width = 900
 canvas.height = 600
@@ -11,14 +13,16 @@ const player1X = 0
 const player2X = canvas.width - paddleWidth
 let wPressed = false
 let sPressed = false
-arrowUp = false
-arrowDownd = false
+let arrowUp = false
+let arrowDown = false
 let ballX = canvas.width / 2
-let ballY = canvas.height - 30
+let ballY = canvas.height / 2
 let ballDX = 2
 let ballDY = 2
 const ballRadious = 10
 let interval = 0
+let player1Score = 0
+let player2Score = 0
 
 function drawBall() {
   ctx.beginPath()
@@ -50,15 +54,28 @@ function draw() {
     ballDY = -ballDY
   }
 
-  if (ballX + ballDX > canvas.width - ballRadious) {
-    if (ballY > player2Y && ballY < player2Y + paddleHeight) {
-      ballDX = -ballDX
+  if (ballX + ballDX < ballRadious) {
+    if (ballY > player1Y && ballY < player1Y + paddleHeight) {
+      ballDX = -ballDX * 1.1
+      ballDX *= 1.1
+    } else {
+      player2Score += 1
+      player2ScoreElement.textContent = player2Score
+      ballX = canvas.width / 2
+      ballY = canvas.height / 2
     }
   }
 
-  if (ballX + ballDX < ballRadious) {
-    if (ballY > player1Y && ballY < player1Y + paddleHeight) {
+  if (ballX + ballDX > canvas.width - ballRadious) {
+    if (ballY > player2Y && ballY < player2Y + paddleHeight) {
       ballDX = -ballDX
+    } else {
+      player1Score += 1
+      player1ScoreElement.textContent = player1Score
+      ballX = canvas.width / 2
+      ballY = canvas.height / 2
+      ballDX = (Math.random() > 0.5 ? 1 : -1) * 2
+      ballDY = (Math.random() > 0.5 ? 1 : -1) * 2
     }
   }
 
@@ -70,7 +87,7 @@ function draw() {
 
   if (arrowUp) {
     player2Y = Math.max(player2Y - 7, 0)
-  } else if (arrowDownd) {
+  } else if (arrowDown) {
     player2Y = Math.min(player2Y + 7, canvas.height - paddleHeight)
   }
 }
@@ -86,7 +103,7 @@ function keyDownHandler(e) {
   } else if (e.key === "ArrowUp") {
     arrowUp = true
   } else if (e.key === "ArrowDown") {
-    arrowDownd = true
+    arrowDown = true
   }
 }
 
@@ -98,7 +115,7 @@ function keyUpHandler(e) {
   } else if (e.key === "ArrowUp") {
     arrowUp = false
   } else if (e.key === "ArrowDown") {
-    arrowDownd = false
+    arrowDown = false
   }
 }
 

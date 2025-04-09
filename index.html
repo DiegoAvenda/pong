@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .score {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
   </head>
   <body>
+    <div class="score">
+      <p>player 1 score: <span id="player1Score"></span></p>
+      <p>player 2 score: <span id="player2Score"></span></p>
+    </div>
     <canvas></canvas>
     <script src="./main.js"></script>
   </body>
